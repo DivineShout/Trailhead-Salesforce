@@ -1,0 +1,10 @@
+@isTest
+private class ReservationTriggerHandlerTest {
+    @isTest static void ReservationTriggerHandler(){
+        Apartment__c apart = new Apartment__c(Name = 'Test');      
+        insert apart;
+        Reservation__c reserv = new Reservation__c(Name=apart.Name + ' Reservation__c',
+                                       	Apartment__c=apart.Id);
+        insert reserv;
+    }
+}
