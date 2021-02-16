@@ -1,0 +1,15 @@
+public class ReservationTriggerHandler {
+	
+    public static void updateLastReservationDate(List<Reservation__c> newList){
+        set<Id> apartIds = new Set<Id>();
+    	for (Reservation__c reserv: newList){
+            apartIds.add(reserv.Apartment__c);
+        }
+        
+        List<Apartment__c> apartList = [SELECT Id From Apartment__c WHERE Id IN :apartIds];
+        for (Apartment__c apart: apartList){
+            apart.DataA__c = System.now();
+        }
+        update apartList;
+    }
+}

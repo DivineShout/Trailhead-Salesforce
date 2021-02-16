@@ -1,0 +1,8 @@
+trigger ReservationTrigger on Reservation__c (before insert, after insert, before update, after update) {
+ 
+    if (Trigger.isAfter && Trigger.isInsert){
+        
+        ReservationTriggerHandler.updateLastReservationDate(Trigger.new);
+    }
+
+}
