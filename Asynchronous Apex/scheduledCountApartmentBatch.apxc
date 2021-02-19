@@ -1,0 +1,8 @@
+global class scheduledCountApartmentBatch implements Schedulable {
+
+   global void execute(SchedulableContext ctx) {
+      CountApartmentBatch cab = new CountApartmentBatch(); 
+      database.executebatch(cab);
+   }
+
+}
