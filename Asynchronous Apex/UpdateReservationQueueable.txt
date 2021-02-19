@@ -1,0 +1,16 @@
+public class UpdateReservationQueueable implements Queueable{
+
+    private List<Reservation__c> reservs;
+    private ID parent;
+    public UpdateReservationQueueable(List<Reservation__c> records, ID id) {
+        this.reservs = records;
+        this.parent = id;
+    }
+    public void execute(QueueableContext context) {
+        for (Reservation__c reserv : reservs) {
+          reserv.Apartment__c = parent;
+          
+        }
+        update reservs;
+    }
+}

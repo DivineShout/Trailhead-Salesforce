@@ -1,0 +1,10 @@
+public class FutureMethod {
+    @future
+    public static void insertReservation(String uname) {
+ 
+        Apartment__c apart = [SELECT Id FROM Apartment__c WHERE Name='50'];
+	    Reservation__c reserv = new Reservation__c(Apartment__c = apart.Id, Name=uname);
+        insert reserv;
+    }
+
+}

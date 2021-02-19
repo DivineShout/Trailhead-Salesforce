@@ -1,0 +1,30 @@
+@isTest
+public class UpdateReservationQueueableTest {
+    @testSetup
+    static void setup() {
+        List<Apartment__c> apart = new List<Apartment__c>();
+        apart.add(new Apartment__c(name='51'));
+        insert apart;
+        
+        List<Reservation__c> reservs = new List<Reservation__c>();
+        reservs.add(new Reservation__c(name='Vitalik Korobov'));
+        for (Integer i = 0; i < 100; i++) {
+            reservs.add(new Reservation__c(
+                name='Test Account'+i
+            ));
+        }
+        insert reservs;
+       
+    }
+    static testmethod void testQueueable() {
+        Id parentId = [select id from Apartment__c where name = '51'][0].Id;
+        List<Reservation__c> reservs = [select id, name from Reservation__c where name like 'Test Account%'];
+        UpdateReservationQueueable updater = new UpdateReservationQueueable(reservs, parentId);
+        Test.startTest();
+        System.enqueueJob(updater);
+        Test.stopTest();
+       
+        System.assertEquals(100, [select count() from Reservation__c where Apartment__c = :parentId]);
+    }
+
+}
