@@ -1,0 +1,29 @@
+public class CountApartmentBatch implements Database.Batchable<sObject>, Database.Stateful {
+    
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator('SELECT ID, Number_Reserv__c FROM Apartment__c ');
+    }
+    
+    public void execute(Database.BatchableContext bc, List<Apartment__c> scope){
+        
+        Map<Id, Integer> apartIdToReservMap = new Map<Id, Integer>();
+        for (AggregateResult aggRes: [
+            SELECT Apartment__c Apartment, COUNT(ID) numApart
+            FROM Reservation__c
+        
+            GROUP BY Apartment__c
+        ]){
+            Id Apartment = (Id) aggRes.get('Apartment');
+    		Integer numApart = (Integer) aggRes.get('numApart');
+    		apartIdToReservMap.put(Apartment, numApart);
+        }
+        
+        for (Apartment__c apart: scope){
+            apart.Number_Reserv__c = apartIdToReservMap.get(apart.Id);
+        }
+        update scope;
+    }
+    public void finish(Database.BatchableContext bc){
+        
+    }
+}
