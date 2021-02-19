@@ -9,7 +9,7 @@ public class UpdateReservationQueueable implements Queueable{
     public void execute(QueueableContext context) {
         for (Reservation__c reserv : reservs) {
           reserv.Apartment__c = parent;
-          
+         
         }
         update reservs;
     }
