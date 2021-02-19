@@ -1,0 +1,29 @@
+@isTest
+	private class CountApartmentBatchTest {
+	@testSetup
+    static void setup() {
+        List<Apartment__c> aparts = new List<Apartment__c>();
+        List<Reservation__c> reservs = new List<Reservation__c>();
+        for (Integer i=0;i<10;i++) {
+            aparts.add(new Apartment__c(name='Apartment__c '+i));
+        }
+        insert aparts;
+
+        for (Apartment__c apart : [select id from Apartment__c]) {
+            reservs.add(new Reservation__c(name='first', Apartment__c=apart.id));
+        }
+        insert reservs;
+    }
+        
+        @isTest static void test() {
+        Test.startTest();
+        CountApartmentBatch cab = new CountApartmentBatch();
+        Id batchId = Database.executeBatch(cab);
+        Test.stopTest();
+        
+        System.assertEquals(10, [select count() from Apartment__c where Number_Reserv__c = 1]);
+    }
+        
+        
+        
+}
