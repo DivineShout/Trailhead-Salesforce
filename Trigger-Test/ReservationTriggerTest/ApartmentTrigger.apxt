@@ -3,7 +3,7 @@ List<Apartment__c> appartIds = [Select id, DataA__c From Apartment__c
                                 Where id in (SELECT Apartment__c FROM Reservation__c 
                                       		WHERE Id IN :Trigger.New) ];
        
-    for(Apartment__c a : appartIds) { 
+     for(Apartment__c a : appartIds) { 
         a.DataA__c = system.now();
     }
     update appartIds;
