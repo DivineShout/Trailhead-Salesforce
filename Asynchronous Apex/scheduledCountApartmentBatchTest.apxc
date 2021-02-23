@@ -1,0 +1,10 @@
+@isTest
+public class scheduledCountApartmentBatchTest {
+    
+    @isTest public static void executeTest(){
+        
+        SchedulableContext sc = null;
+        scheduledCountApartmentBatch sca = new scheduledCountApartmentBatch();
+        sca.execute(sc);        
+    }      
+}
