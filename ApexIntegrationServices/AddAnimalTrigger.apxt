@@ -1,0 +1,6 @@
+trigger AddAnimalTrigger on Animal__c (before insert, after insert, before update, after update) {
+	
+    if (Trigger.isAfter && Trigger.isInsert) {
+        AddAnimalTriggerHandle.updateLastReservationDate(Trigger.new);
+    }
+}
