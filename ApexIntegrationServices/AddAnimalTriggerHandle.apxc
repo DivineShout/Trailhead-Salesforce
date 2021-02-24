@@ -1,0 +1,15 @@
+public class AddAnimalTriggerHandle {
+  
+	public static void updateLastReservationDate(List<Animal__c> newList){
+		set<Id> animalIds = new Set<Id>();
+    		for (Animal__c animal: newList){
+        	    animalIds.add(animal.id);                
+       		}
+        
+        List<Animal__c> animalId = [SELECT id__c From Animal__c WHERE Id IN :animalIds];
+        for (Animal__c apart: animalId){          
+           Integer id = Integer.valueOf(apart.Id__c);           
+           AnimalById.getAnimalById(id);
+        	}	
+	}
+}
