@@ -1,0 +1,27 @@
+<apex:page standardController="Client__c" renderAs="pdf" applyBodyTag="false">
+ 
+    <body>
+        <center>
+        <h1>"{!Client__c.Name}" client details</h1>
+
+        <apex:panelGrid  columns="2" width="100%">
+            <apex:outputText value="Client name:"/>
+            <apex:outputText value="{!Client__c.Name}"/>
+            
+            <apex:outputText value="Email:"></apex:outputText>
+            <apex:outputText value="{!Client__c.Email__c}"></apex:outputText>
+            
+            <apex:outputText value="Gender:"></apex:outputText>
+            <apex:outputText value="{!Client__c.Gender__c}"></apex:outputText>
+            
+            <apex:outputText value="Mobile phone:"></apex:outputText>
+            <apex:outputText value="{!Client__c.Mobile_Phone__c}"></apex:outputText>
+            
+            <apex:outputText value="Birth Day:"></apex:outputText>
+            <apex:outputText value="{!Client__c.Birth_Day__c}"></apex:outputText>
+            
+        </apex:panelGrid>
+        </center>
+    </body>
+
+</apex:page>
