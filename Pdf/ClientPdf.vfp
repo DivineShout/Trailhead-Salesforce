@@ -1,23 +1,29 @@
 <apex:page standardController="Client__c" renderAs="pdf" applyBodyTag="false">
- 
+ <head>
+        <style> 
+            body { font-family: 'Arial Unicode MS'; }
+            .clientstyle { font: bold 20px; }  
+        </style>
+    </head>
     <body>
         <center>
-        <h1>"{!Client__c.Name}" client details</h1>
+            <h1>"{!Client__c.Name}"</h1>
+            <h1>client details </h1>
 
-        <apex:panelGrid  columns="2" width="100%">
-            <apex:outputText value="Client name:"/>
+        <apex:panelGrid columns="2" width="100%">
+            <apex:outputText value="Client name:" styleClass="clientstyle"/>
             <apex:outputText value="{!Client__c.Name}"/>
             
-            <apex:outputText value="Email:"></apex:outputText>
+            <apex:outputText value="Email:" styleClass="clientstyle"></apex:outputText>
             <apex:outputText value="{!Client__c.Email__c}"></apex:outputText>
             
-            <apex:outputText value="Gender:"></apex:outputText>
+            <apex:outputText value="Gender:" styleClass="clientstyle"></apex:outputText>
             <apex:outputText value="{!Client__c.Gender__c}"></apex:outputText>
             
-            <apex:outputText value="Mobile phone:"></apex:outputText>
+            <apex:outputText value="Mobile phone:" styleClass="clientstyle"></apex:outputText>
             <apex:outputText value="{!Client__c.Mobile_Phone__c}"></apex:outputText>
             
-            <apex:outputText value="Birth Day:"></apex:outputText>
+            <apex:outputText value="Birth Day:" styleClass="clientstyle"></apex:outputText>
             <apex:outputText value="{!Client__c.Birth_Day__c}"></apex:outputText>
             
         </apex:panelGrid>
