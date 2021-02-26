@@ -7,8 +7,9 @@
     </head>
     <body>
         <center>
+            <h1>Client </h1>
             <h1>"{!Client__c.Name}"</h1>
-            <h1>client details </h1>
+            
 
         <apex:panelGrid columns="2" width="100%">
             <apex:outputText value="Client name:" styleClass="clientstyle"/>
