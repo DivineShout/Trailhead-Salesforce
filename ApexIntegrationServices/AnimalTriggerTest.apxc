@@ -1,0 +1,23 @@
+@isTest
+public class AnimalTriggerTest {
+
+    @isTest
+    static void testFillingFieldsFromWebService() {
+
+        Test.setMock(HttpCalloutMock.class, new AnimalLocatorMock());
+
+        Test.startTest();
+        
+        Animal__c animal = new Animal__c(Name = 'chicken', id__c = 1);
+        insert animal;
+        
+        Test.stopTest();
+
+        List<Animal__c> animals = [SELECT Id, Name, id__c, eats__c, says__c FROM Animal__c];
+        animal = animals.get(0);
+
+        System.assertEquals(animal.Eats__c, 'chicken food');
+        System.assertEquals(animal.Says__c, 'cluck cluck');
+
+    }
+}
