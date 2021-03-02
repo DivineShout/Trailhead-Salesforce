@@ -1,0 +1,16 @@
+public class ClientPdfController {
+
+    public Client__c getClient() {
+        
+        //null PDF
+        if (ApexPages.currentPage().getParameters().get('id') == null) {
+            return new Client__c();
+        }
+        //client PDF
+        Client__c clientInfo = [SELECT Id, Name, Email__c, Gender__c, Mobile_Phone__c, Birth_Day__c
+                		FROM Client__c
+               			WHERE Id = :ApexPages.currentPage().getParameters().get('id')];
+        
+        return clientInfo;
+    }
+}
