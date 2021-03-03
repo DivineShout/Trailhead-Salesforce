@@ -1,0 +1,23 @@
+public class CustomLog {
+	
+    private static Map<Integer, String> statusCodeDescriptionMap = new Map<Integer, String>{
+        																		200 => 'OK',
+                                                                                404 => 'NOT_FOUND'};
+    
+    public static Custom_Log__c createCustomLog(RestResponse response, String requestURI) { 
+    	
+        DateTime currentDT = DateTime.now();
+    	Custom_Log__c custlog = new Custom_Log__c(Name = requestURI, Time__c = currentDT);
+        custlog.Status_Code__c = response.statusCode;
+        custlog.Status_Description__c = statusCodeDescriptionMap.get(response.statusCode);
+        
+        if(response.responseBody != null) {
+            custlog.Response_Body__c = response.responseBody.toString();
+        }
+        
+        insert custlog;       
+        return custlog;
+        
+    }
+  
+}
