@@ -1,0 +1,45 @@
+@RestResource(urlMapping = '/Animal__c/*')
+global class AnimalRestResource {
+	 
+    @HttpGet 
+    global static void doGet() {
+       RestRequest request = RestContext.request;
+       RestResponse response = new RestResponse();
+        
+       String animalIds =request.requestURI.substring(request.requestUri.lastIndexOf('/'+1));
+       Integer Id = Integer.valueOf(animalIds);
+        
+       List<Animal__c> result = [SELECT Name, Eats__c, Says__c, Id__c FROM Animal__c WHERE Id__c =: Id ];
+        
+        if(result.size() == 0) {
+         HttpResponse responses = Animal.getAnimalById((Integer) Id);
+         Animal__c animal = Animal.createAnimal(response.getBody());
+            
+           if(animal.Eats__c.length() != 0  && animal.Says__c.length() != 0 && animal.name.length() != 0) {
+              insert animal;
+               
+              response.responseBody = Blob.valueOf(JSON.serialize(animal));
+              response.statusCode = 200;
+           } else {
+              response.statusCode = 404;
+           }
+       }
+        if(result.size() > 0) {
+           response.responseBody = Blob.valueOf(JSON.serialize(result));
+           response.statusCode = 200;
+        }  
+        CustomLog.createCustomLog(response, request.requestURI);
+    }
+    
+    @HttpPost
+    global static Id createAnimals(String name, String eats, String says, Integer animalId) {
+       Animal__c animal = new Animal__c();
+       animal.Name = name;
+       animal.Eats__c= eats;
+       animal.Id__c = animalId;
+       animal.Says__c = says;
+       insert animal;
+       return animal.Id;
+    }
+    
+}
