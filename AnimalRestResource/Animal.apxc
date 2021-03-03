@@ -1,0 +1,59 @@
+public class Animal {
+    
+    public String[] animals;
+    public String id;
+    public String name;
+    public String eats;
+    public String says; 
+    
+    @future(callout=true)
+    public static void updateAnimalsInfo(Set<Id> animalsIds) {
+    	
+        List<Animal__c> animals = [SELECT Name, eats__c, says__c, id__c FROM Animal__c WHERE Id IN :animalsIds AND id__c != null];
+        List<Animal__c> animalsUpdate = new List<Animal__c>();
+
+        Animal animalWebService;
+
+        for (Animal__c animal : animals) {
+
+            animalWebService = getAnimalById((Integer) animal.id__c);            
+            animal.Name = animalWebService.name;
+            animal.eats__c = animalWebService.eats;
+            animal.says__c = animalWebService.says;  
+     	    animalsUpdate.add(animal); 
+
+        	}
+
+            Database.update(animalsUpdate);
+        
+    }
+    
+     public static Animal getAnimalById(Integer Id) {
+        
+        Http http = new Http(); 
+        HttpRequest request = new HttpRequest();
+         request.setEndpoint('https://th-apex-http-callout.herokuapp.com/animals/' + Id);
+        request.setMethod('GET');       
+        HttpResponse response = http.send(request);
+        
+        Animal animal = new Animal();
+        if (response.getStatusCode() == 200) {
+            Map<String, Object> result = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+            animal = (Animal) JSON.deserializeStrict(JSON.serialize(result.get('animal')), Animal.class);
+        }
+        return animal;
+        
+    }
+    
+    public static Animal__c createAnimal(String animalString) {
+       Animal animals = (Animal)  JSON.deserialize(animalString, Animal.class);
+       Animal__c animal = new Animal__c();
+        animal.Eats__c = animals.eats;
+        animal.Says__c = animals.says;
+        animal.Name = animals.name;
+        return animal;
+    }
+    
+    
+    
+}
