@@ -1,49 +1,76 @@
 public class Animal {
     
-    public String[] animals;
-    public String id;
-    public String name;
-    public String eats;
-    public String says; 
-       
+    public AnimalInfo animal;
+	public String[] animals;
+    
+    public class AnimalInfo {
+        
+        public String eats;
+    	public String says;
+    	public String id;
+    	public String name;
+        
+        public AnimalInfo(String id, String name, String says, String eats) {
+            
+            this.id = id;
+            this.name = name;
+            this.says = says;
+            this.eats = eats;
+        }       
+    } 
+    
     @future(callout=true)
     public static void updateAnimalsInfo(Set<Id> animalsIds) {
     	
-        List<Animal__c> animals = [SELECT Name, eats__c, says__c, id__c FROM Animal__c WHERE Id IN :animalsIds AND id__c != null];
-        List<Animal__c> animalsUpdate = new List<Animal__c>();
+        List<Animal__c> animals = [SELECT Name, Eats__c, Says__c, ID__c FROM Animal__c WHERE Id IN :animalsIds AND ID__c != null];
+        List<Animal__c> animalsForUpdate = new List<Animal__c>();
         
-        Animal animalWebService;
-                
-        for (Animal__c animal : animals) {
-                     
-            animalWebService = getAnimalById((Integer) animal.id__c);            
-            animal.Name = animalWebService.name;
-            animal.eats__c = animalWebService.eats;
-            animal.says__c = animalWebService.says;  
-     	    animalsUpdate.add(animal); 
-  
-        	}
-        
-            Database.update(animalsUpdate);
-     
-    }
-    
-    public static Animal getAnimalById(Integer Id) {
-        
-        Http http = new Http();      
-        HttpRequest request = new HttpRequest();
-        request.setEndpoint('https://th-apex-http-callout.herokuapp.com/animals/' + Id);
-        request.setMethod('GET'); 
-        HttpResponse response = http.send(request);
-        
-        Animal animal = new Animal();
-        
-        if (response.getStatusCode() == 200) {
-            Map<String, Object> result = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-            animal = (Animal) JSON.deserializeStrict(JSON.serialize(result.get('animal')), Animal.class);
+        AnimalInfo animalInfo;
+
+        for (Animal__c animalObj : animals) {
+            
+        	animalInfo = getAnimalInfoById((Integer) animalObj.ID__c);
+            animalsForUpdate.add(animalObj);      
+            
         }
         
-        return animal;      
-    }  
+        if (animalsForUpdate.size() > 0) {
+            Database.update(animalsForUpdate);
+        }
+        
+    }
+    
+     public static AnimalInfo getAnimalInfoById(Integer animalId) {
+        
+        Http http = new Http(); 
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://th-apex-http-callout.herokuapp.com/animals/' + animalId);
+        request.setMethod('GET');        
+        HttpResponse response = http.send(request);
+        
+        AnimalInfo animalInfo;
+        if (response.getStatusCode() == 200) {
+            Animal webAnimal = (Animal) JSON.deserialize(response.getBody(), Animal.class);
+            animalInfo = webAnimal.animal;
+        }
+        return animalInfo;
+        
+    }
+    
+    public static void createAnimalObjectById(Integer animalId) {
+    	
+    	AnimalInfo animalInfo = getAnimalInfoById(animalId);
+        if (animalInfo != null || animalInfo.id != '0') {
+            
+            String nameForNewAnimal = 'new Animal';            
+            if (animalInfo.name != null || String.isBlank(animalInfo.name) || String.isEmpty(animalInfo.name)) {
+                nameForNewAnimal = animalInfo.name;
+            }
+            Animal__c newAnimal = new Animal__c(Name = nameForNewAnimal, ID__c = animalId);
+              insert newAnimal;
+            
+        }
+        
+    }
     
 }
