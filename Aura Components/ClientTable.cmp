@@ -1,0 +1,42 @@
+<aura:component controller="ClientInfo">
+ <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+ <aura:attribute name="Clients" type="List"/>
+
+ <ltng:require styles="/resource/SLDS0102/assets/styles/salesforce-lightning-design-system-ltng.css" />
+ <div class="slds">
+
+ <table  class="slds-table slds-table--bordered slds-table--striped">
+ <thead>
+ <tr>
+ <th scope="col"><span class="slds-truncate">Name</span></th>
+ </tr>
+ <tr>
+ <th scope="col"><span class="slds-truncate">Email</span></th>
+ </tr>
+ <tr>
+ <th scope="col"><span class="slds-truncate">Birth Day</span></th>
+ </tr>
+ <tr>
+ <th scope="col"><span class="slds-truncate">Gender</span></th>
+ </tr>
+ </thead>
+ <tbody>
+ <aura:iteration items="{!v.Clients}" var="client">
+ <tr>
+ <td> {!client.Name}</td> 
+ </tr>
+ <tr>
+ <td> {!client.Email__c}</td> 
+ </tr>
+ <tr>
+ <td> {!client.Birth_Day__c}</td> 
+ </tr>
+ <tr>
+ <td> {!client.Gender__c}</td> 
+ </tr>
+ </aura:iteration>
+ </tbody>
+ </table>
+     
+ </div>
+</aura:component>
