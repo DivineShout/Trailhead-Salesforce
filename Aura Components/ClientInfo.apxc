@@ -1,0 +1,7 @@
+public class ClientInfo {
+@AuraEnabled
+ public static List<Client__c> getClients(){
+ List<Client__c> client = [select id,Name, Email__c, Birth_Day__c, Gender__c from Client__c];
+ return client;
+ }
+}
