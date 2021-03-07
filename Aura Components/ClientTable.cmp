@@ -30,7 +30,9 @@
      
  </div>
 
-<c:NewClient/> 
+<div class="slds-modal__footer">
+          <lightning:button class="slds-button slds-button--brand" onclick="{!c.createClient}">New Client</lightning:button>
+	</div>
 
 
 </aura:component>
