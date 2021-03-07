@@ -1,4 +1,4 @@
-<aura:component controller="ClientInfo" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+<aura:component controller="ClientInfo"  implements="flexipage:availableForAllPageTypes" access="global">
  
  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
  <aura:attribute name="Clients" type="List"/>
