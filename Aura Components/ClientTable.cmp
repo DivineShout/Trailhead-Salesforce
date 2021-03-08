@@ -2,10 +2,10 @@
  
  <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
  <aura:attribute name="Clients" type="List"/>
-
- <ltng:require styles="/resource/SLDS0102/assets/styles/salesforce-lightning-design-system-ltng.css" />
  <div class="slds">
-
+<legend id="newexpenseform" class="slds-text-heading_small slds-p-vertical_medium">
+          Client list
+        </legend>
  <table  class="slds-table slds-table--bordered slds-table--striped">
  <thead>
      <tr>
