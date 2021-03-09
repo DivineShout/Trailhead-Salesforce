@@ -2,7 +2,7 @@ public class NewClientController {
 
     @AuraEnabled
  	public static Client__c saveClient(Client__c client) {
-        upsert client;
+        insert client;
         return client;
     }
 }
