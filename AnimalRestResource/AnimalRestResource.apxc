@@ -1,45 +1,37 @@
 @RestResource(urlMapping = '/Animal__c/*')
-global class AnimalRestResource {
-	 
-    @HttpGet 
+global with sharing class AnimalRestResource {
+	
+    @HttpGet
     global static void doGet() {
-       RestRequest request = RestContext.request;
-       RestResponse response = new RestResponse();
+        RestRequest request = RestContext.request;
+        RestResponse response = RestContext.response;
         
-       String animalIds =request.requestURI.substring(request.requestUri.lastIndexOf('/'+1));
-       Integer Id = Integer.valueOf(animalIds);
+        String animalIdAnimalString = request.requestURI.substring(request.requestURI.lastIndexOf('/')+1);
+        Decimal IdAnimal = Decimal.valueOf(animalIdAnimalString);
         
-       List<Animal__c> result = [SELECT Name, Eats__c, Says__c, Id__c FROM Animal__c WHERE Id__c =: Id ];
+        List<Animal__c> result = [SELECT Id, Name, ID__c, Eats__c, Says__c  FROM Animal__c WHERE ID__c = :IdAnimal];
         
-        if(result.size() == 0) {
-         HttpResponse responses = Animal.getAnimalById((Integer) Id);
-         Animal__c animal = Animal.createAnimal(response.getBody());
-            
-           if(animal.Eats__c.length() != 0  && animal.Says__c.length() != 0 && animal.name.length() != 0) {
-              insert animal;
-               
-              response.responseBody = Blob.valueOf(JSON.serialize(animal));
-              response.statusCode = 200;
-           } else {
-              response.statusCode = 404;
-           }
-       }
-        if(result.size() > 0) {
-           response.responseBody = Blob.valueOf(JSON.serialize(result));
-           response.statusCode = 200;
-        }  
+        if (result.size() > 0) {
+        	String animalString = JSON.serialize(result.get(0));
+        	Blob animalBlob = Blob.valueof(animalString);
+        	response.responseBody = animalBlob;
+        	response.statusCode = 200;
+        }   
+        
+        if (result.size() == 0) {
+            Animal.createAnimalById((Integer) IdAnimal);
+        	result = [SELECT Id, Name, ID__c, Eats__c, Says__c  FROM Animal__c WHERE ID__c = :IdAnimal];    
+            if (result.size() > 0) {
+                String animalString = JSON.serialize(result.get(0));
+        		Blob animalBlob = Blob.valueof(animalString);
+        		response.responseBody = animalBlob;
+        		response.statusCode = 200;
+            }else {
+            	response.statusCode = 404;
+            }
+        }
+        
         CustomLog.createCustomLog(response, request.requestURI);
-    }
-    
-    @HttpPost
-    global static Id createAnimals(String name, String eats, String says, Integer animalId) {
-       Animal__c animal = new Animal__c();
-       animal.Name = name;
-       animal.Eats__c= eats;
-       animal.Id__c = animalId;
-       animal.Says__c = says;
-       insert animal;
-       return animal.Id;
     }
     
 }
