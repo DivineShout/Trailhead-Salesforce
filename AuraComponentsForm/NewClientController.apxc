@@ -1,8 +1,8 @@
 public class NewClientController {
 
     @AuraEnabled
- 	public static Client__c saveAnimal(Client__c client) {
-        insert client;
+ 	public static Client__c saveClient(Client__c client) {
+        upsert client;
         return client;
     }
 }
