@@ -1,0 +1,26 @@
+<aura:component controller="NewClientController"  implements="flexipage:availableForAllPageTypes" access="global">
+<aura:attribute name="newClient" type="Client__c"
+        default="{ 'sobjectType': 'Client__c',
+                   'Name': '',
+                   'Email': '',
+                   'Birth Day': ''}" />
+    <aura:attribute name="message" type="String" default=""/>
+    
+    <lightning:card iconName="standard:client" title="Add a Client">
+        <div class="slds-p-around_medium">
+            <lightning:layout>
+                <lightning:layoutItem size="4" padding="around-small">
+                    <lightning:input aura:id="client"
+                                         label="Name"
+                                         value="{!v.newClient.Name}" />
+                </lightning:layoutItem> 
+                <lightning:layoutItem size="8" padding="around-small">
+                    <lightning:input aura:id="client" label="Email" type="Text" value="{!v.newClient.Email__c}"/>
+                    <lightning:input aura:id="client" label="Birth Day" type="Date" value="{!v.newClient.Birth_Day__c}"/>
+                    <lightning:button label="Create House" onclick="{!c.handleCreateClient}" variant="brand" class="slds-m-top_medium"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <p>{!v.message}</p>
+        </div>
+    </lightning:card>
+</aura:component>
