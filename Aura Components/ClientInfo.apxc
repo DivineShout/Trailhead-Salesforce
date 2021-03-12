@@ -1,7 +1,8 @@
 public class ClientInfo {
 @AuraEnabled
- public static List<Client__c> getClients(){
- List<Client__c> client = [select id,Name, Email__c, Birth_Day__c, Gender__c from Client__c];
- return client;
- }
+    public static List <Client__c> getClients() {
+       
+      String query = 'SELECT Id, Name, Email__c, Gender__c, Birth_Day__c FROM Client__c';   
+      return Database.query(query);
+    }
 }
