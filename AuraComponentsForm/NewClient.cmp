@@ -1,6 +1,8 @@
 <aura:component controller="NewClientController"  implements="flexipage:availableForAllPageTypes" access="global">
-<aura:attribute name="newClient" type="Client__c"
-        default="{ 'sobjectType': 'Client__c', 'Name': 'new Client'}" />
+    <aura:attribute name="name" type="String"/>
+    <aura:attribute name="email" type="String"/>
+    <aura:attribute name="gender" type="String"/>
+    <aura:attribute name="birthday" type="Date"/>
     <aura:attribute name="message" type="String" default=""/>
      <div class="slds">
     <center>
@@ -15,10 +17,10 @@
         <div class="slds-p-around_medium">
             <lightning:layout>
                 <lightning:layoutItem size="12" padding="around-small">
-                    <lightning:input aura:id="client" label="Name" required="true" value="{!v.newClient.Name}" />
-                    <lightning:input aura:id="client" label="Email" type="Text" value="{!v.newClient.Email__c}"/>
-                    <lightning:input aura:id="client" label="Gender" type="Text" value="{!v.newClient.Gender__c}"/>
-                    <lightning:input aura:id="client" label="Birth Day" type="Date" value="{!v.newClient.Birth_Day__c}"/>
+                    <lightning:input  label="Name" required="true" value="{!v.name}" />
+                    <lightning:input  label="Email" type="Text" value="{!v.email}"/>
+                    <lightning:input  label="Gender" type="Text" value="{!v.gender}"/>
+                    <lightning:input  label="Birth Day" type="Date" value="{!v.birthday}"/>
                     <lightning:button label="Create Client" onclick="{!c.handleCreateClient}" variant="brand" class="slds-m-top_medium"/>
                 </lightning:layoutItem>
             </lightning:layout> 
