@@ -1,7 +1,9 @@
 public class NewClientController {
 
     @AuraEnabled
- 	public static Client__c saveClient(Client__c client) {
+ 	public static Client__c saveClient(String name, String email, String gender, Date birthday) {
+        
+        Client__c client = new Client__c(Name = name, Email__c = email, Gender__c = gender, Birth_Day__c = birthday);
         insert client;
         return client;
     }
