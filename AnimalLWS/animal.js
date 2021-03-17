@@ -28,19 +28,18 @@ export default class Animal extends LightningElement {
             maxId : this.maxId
         }).then(result => {
             if(result) {
-                console.log(result);
+                
                 this.animalList = result;
             }
             else if(error) {
                 let errorMessage = "Error: " + error;
-                alert(errorMessage);
-                console.log(errorMessage);
+                
             }
         });   
     }
 
     createAnimalsBtnClickHandler() {
-        console.log(this.template.querySelector('lightning-datatable').getSelectedRows());
+       
         createAnimals({Animals : this.template.querySelector('lightning-datatable').getSelectedRows()})
     }
 
