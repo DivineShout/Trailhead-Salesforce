@@ -91,6 +91,7 @@ public class Animal {
     @AuraEnabled
     public static void createAnimals(List<Animal__c> Animals){
         insert Animals;
+	EmailAnimalResult.sendEmailCreateAnimal(animals, 'Create_Animal');
     }
  
 }
