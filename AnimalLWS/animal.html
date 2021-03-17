@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Animal" icon-name="custom:custom14">
+      <div class="slds-m-around_medium">
+        <p>Enter id ( {minId} -  {maxId})</p>
+        <lightning-input label="min id" value={minId} onchange={changeHandlerMin}></lightning-input>
+        <lightning-input label="max id" value={maxId} onchange={changeHandlerMax}></lightning-input>
+      </div>
+
+      <div class="slds-m-around_medium slds-grid">
+        <lightning-button class="slds-col slds-p-top--small slds-p-bottom--middle" label="Create Table" variant="brand" onclick={getAnimalBtnClickHandler}></lightning-button>
+      </div>
+      <div style="height: auto;">
+        <lightning-datatable
+                key-field="row"
+                data={animalList}
+                columns={columns}>
+        </lightning-datatable>
+    </div>
+    <div class="slds-m-around_medium slds-grid"> 
+        <lightning-button class="slds-col slds-p-top--small slds-p-bottom--middle" label="Create Animals" variant="Brand"  onclick={createAnimalsBtnClickHandler}></lightning-button>
+    </div>
+    </lightning-card>
+ 
+  </template>
